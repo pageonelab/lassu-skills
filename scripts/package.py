@@ -32,6 +32,7 @@ def generated(root=ROOT):
             'plugins':[{'name':'lassu','source':{'source':'local','path':'./plugins/lassu'},
                 'policy':{'installation':'AVAILABLE','authentication':'ON_INSTALL'},'category':'Productivity'}]}),
         '.claude-plugin/marketplace.json': encoded({'name':'lassu','owner':{'name':'PageOneLab'},
+            'metadata':{'description':'Official Lassu skills for narrated videos and screenshot editing.'},
             'plugins':[{'name':'lassu','source':'./plugins/lassu','version':version,
                 'description':metadata['description']}]}),
     }
