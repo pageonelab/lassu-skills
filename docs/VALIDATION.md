@@ -10,7 +10,7 @@ Passed locally: source validation, generated-output parity, local references, me
 
 ## Pass two: adversarial and release paths
 
-Passed: negative tests for changed generated content, missing and escaping references, non-English documentation, version mismatch, unexpected MCP configuration, and marketplace resolution. All eight tests pass on all five hosted targets. Initial Windows runs exposed implicit encoding in test fixtures; reads and affected writes now specify UTF-8. The second review also added a dev-only main-promotion gate and a second eligible code owner to avoid an impossible self-review requirement. Main branch protection, read-only workflow defaults, private vulnerability reporting and the main-only release environment were inspected through the GitHub API. The release workflow itself awaits a reviewed merge to main; no production release has been published.
+Passed: negative tests for changed generated content, missing and escaping references, non-English documentation, version mismatch, unexpected MCP configuration, and marketplace resolution. All eight tests passed on all five hosted targets at this stage. Initial Windows runs exposed implicit encoding in test fixtures; reads and affected writes now specify UTF-8. The second review also added a dev-only main-promotion gate and a second eligible code owner to avoid an impossible self-review requirement. Main branch protection, read-only workflow defaults, private vulnerability reporting and the main-only release environment were inspected through the GitHub API. The main promotion happened after this review; see the subsequent installation record below. No release has been published.
 
 ## Native acceptance
 
@@ -27,3 +27,9 @@ The final instruction review removed a leftover Mac-only path and external Node 
 Codex CLI 0.154.0 and Claude Code 2.1.119 each added this local Git marketplace and installed `lassu@lassu` in a temporary user profile. Both loaded version 0.1.0 into their private plugin caches. Claude Code's own marketplace validator passed; its missing-description warning was addressed by adding marketplace metadata. This verifies local marketplace resolution and plugin installation on Mac. It does not establish published-main or release-archive availability, host approval of MCP, or Windows visible-desktop operation. The temporary profiles were removed after inspection; normal user profiles were not modified.
 
 A second actual-client check installed each plugin, then configured and removed the app-owned MCP connection. The product installer detected host ownership in both clients, created no duplicate personal skills, and preserved the enabled plugin and its cached files when disconnecting. This check also used temporary profiles.
+
+## Default GitHub marketplace installation
+
+On September 14, 2026, a maintainer reviewed and merged [the initial promotion](https://github.com/pageonelab/lassu-skills/pull/1). All five packaging targets and the exact-artifact gate passed on main commit `d5ca9f779c744740ed4e5ed5efdb24b6c5b4321c` in [main CI](https://github.com/pageonelab/lassu-skills/actions/runs/34840350530). [PR #7](https://github.com/pageonelab/lassu-skills/pull/7) then merged main back into dev without changing the file tree.
+
+Codex CLI 0.154.0 and Claude Code 2.1.119 each installed `pageonelab/lassu-skills` from GitHub using the README's default-branch commands. Both cached exactly two skills and the product installer detected host ownership. This verifies the public GitHub entry point, beyond the earlier local-marketplace test. Fresh temporary profiles were removed afterward; normal user profiles were untouched. Release archives, native app rollout and Windows interactive acceptance remain separate gates.

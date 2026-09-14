@@ -7,6 +7,8 @@
 3. Open a pull request from `dev` to `main`. Review the behavior and the failure/recovery paths separately. Include native app evidence when changing capability claims.
 4. Require `CI gate`, resolved conversations and one review from a code owner. Merge only after the checks pass. Keep `dev` and `main`; after squash promotion, merge `main` back into `dev` so their history remains aligned.
 
+Squash merges are appropriate for feature changes. The repository also enables merge commits for the main-to-dev reconciliation PR: use a merge commit for that PR so main remains an ancestor of dev. Squashing the reconciliation would discard the ancestry it is meant to preserve. Both merge methods remain subject to branch protection and required checks.
+
 `CI gate` is the stable required check. It requires all five jobs, downloads their artifacts, and compares the bytes. Missing, skipped or failed platform jobs fail the gate. Documentation changes also run validation.
 
 ## Prepare and publish
