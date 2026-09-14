@@ -82,6 +82,8 @@ def validate(root=ROOT):
             raise ValueError('Invalid skill frontmatter: '+name)
         if len(text.splitlines()) > 200:
             raise ValueError('Keep the main skill concise: '+name)
+        if re.search(r'/Applications/[^\s`]+\.app|macOS requires Node\.js', text):
+            raise ValueError('Legacy platform-specific setup in portable skill: '+name)
         for link in re.findall(r'\]\(([^)]+)\)',text):
             if '://' in link or link.startswith('#'):
                 continue
@@ -90,10 +92,12 @@ def validate(root=ROOT):
                 raise ValueError('Broken or escaping skill reference: '+link)
     for path in root.rglob('*'):
         relative=path.relative_to(root)
-        if any(part in {'.git','dist','__pycache__','.venv'} for part in relative.parts) or not path.is_file():
+        if any(part in {'.git','dist','__pycache__','.venv'} for part in relative.parts):
             continue
         if path.is_symlink():
             raise ValueError('Symlinks are not portable: '+str(relative))
+        if not path.is_file():
+            continue
         data=path.read_bytes()
         if len(data)>1024*1024:
             raise ValueError('Source file exceeds 1 MiB: '+str(relative))
@@ -101,7 +105,7 @@ def validate(root=ROOT):
         # English-only repository policy: reject CJK, including comments and fixtures.
         if re.search('[\u3400-\u9fff\uf900-\ufaff]',text):
             raise ValueError('Non-English CJK content: '+str(relative))
-        if re.search(r'/' + r'Users/[^/\s]+|C:\\\\Users\\\\[^\\\s]+',text):
+        if re.search(r'/' + r'Users/[^/\s]+|[A-Za-z]:[\\/]+Users[\\/]+[^\\/\s]+',text):
             raise ValueError('Personal machine path in source: '+str(relative))
     if (root / '.git').exists():
         messages = subprocess.run(['git', 'log', '--format=%B'], cwd=root, check=True, capture_output=True, text=True).stdout
