@@ -33,3 +33,10 @@ A second actual-client check installed each plugin, then configured and removed 
 On September 14, 2026, a maintainer reviewed and merged [the initial promotion](https://github.com/pageonelab/lassu-skills/pull/1). All five packaging targets and the exact-artifact gate passed on main commit `d5ca9f779c744740ed4e5ed5efdb24b6c5b4321c` in [main CI](https://github.com/pageonelab/lassu-skills/actions/runs/34840350530). [PR #7](https://github.com/pageonelab/lassu-skills/pull/7) then merged main back into dev without changing the file tree.
 
 Codex CLI 0.154.0 and Claude Code 2.1.119 each installed `pageonelab/lassu-skills` from GitHub using the README's default-branch commands. Both cached exactly two skills and the product installer detected host ownership. This verifies the public GitHub entry point, beyond the earlier local-marketplace test. Fresh temporary profiles were removed afterward; normal user profiles were untouched. Release archives, native app rollout and Windows interactive acceptance remain separate gates.
+
+
+## Global delivery and window isolation (0.1.2)
+
+The instruction change was walked through against the default tutorial, explicit private/team audience, version-conflict, foreground-only tool, and changed-window scenarios. The review checked the actual sharing contract: `anyoneWithLink` maps to backend `public`, and sharing requires ready playback, a current version, and an idempotency key. Draft review stays private. The capture/control review distinguishes a selected page in a background task window from a hidden tab, and independent-window capture from tools that drive global input.
+
+This is a source/contract walkthrough, not an independent agent execution. All 12 package tests, generated-file parity, deterministic archive building, English-content checks, and the recording skill creator validator passed locally. No live video was recorded or published to validate this instruction change, and no user foreground app or window was manipulated. Concurrent-work acceptance still requires a real host test with another app active and physical input in use; Windows capture behavior requires its own device validation.
