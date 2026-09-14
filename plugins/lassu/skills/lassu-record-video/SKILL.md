@@ -35,7 +35,7 @@ For multiple shell calls use `recording start --detach --max-duration 180s --sou
 
 Without demo production, omit demoId. Ordinary stop finalizes/uploads immediately. Legacy macOS narration uses `prepare_narration`, measured segment durations, then narration placements on start or one `attach_narration` during capture. Record through the last spoken segment. Retry upload with `retry_recording`; removeNarration is only for an explicitly accepted silent alternative before source commit.
 
-For a missing connection, enable AI access in Lassu Settings → Preferences and use its copied MCP configuration. The bundled plugin uses `/Applications/Lassu.app`; custom/dev locations require their own configuration. macOS requires Node.js 22. Do not use UI automation to bypass auth, quota or permission failures.
+For a missing connection, enable AI access in Lassu preferences and use Connect Codex or Connect Claude Code in a compatible app build. Other clients use the app's copied MCP configuration for its actual installation path. The app supplies the runtime; this plugin supplies instructions only. If an older app still requires a separately installed runtime, explain that an app update is needed for the new setup experience. Do not install a global language runtime or use UI automation to bypass auth, quota or permission failures.
 
 ## Connection recovery
 

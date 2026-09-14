@@ -61,6 +61,27 @@ class PackageTests(unittest.TestCase):
         (self.root/'VERSION').write_text('0.2.0\n')
         with self.assertRaisesRegex(ValueError,'mismatch'): package.validate(self.root)
 
+    def test_legacy_platform_setup_fails(self):
+        path=self.root/'skills/lassu-record-video/SKILL.md'
+        original=path.read_text(encoding='utf-8')
+        for directive in ['Use /Applications/'+'Lassu.app.', 'macOS requires '+'Node.js 22.']:
+            path.write_text(original+'\n'+directive, encoding='utf-8')
+            with self.assertRaisesRegex(ValueError,'Legacy platform-specific'): package.validate(self.root)
+
+    def test_windows_personal_path_fails(self):
+        path=self.root/'docs/invalid.md'
+        for separator in ['\\', '\\\\', '/']:
+            path.write_text(separator.join(['C:', 'Users', 'example', 'private']), encoding='utf-8')
+            with self.assertRaisesRegex(ValueError,'Personal machine path'): package.validate(self.root)
+
+    def test_directory_symlink_fails(self):
+        path=self.root/'docs/linked'
+        try:
+            path.symlink_to(self.root/'skills', target_is_directory=True)
+        except OSError as error:
+            self.skipTest('Directory symlink privilege is unavailable: '+str(error))
+        with self.assertRaisesRegex(ValueError,'Symlinks are not portable'): package.validate(self.root)
+
     def test_readiness_metadata_matches_both_native_status_shapes(self):
         metadata=json.loads((self.root/'compatibility.json').read_text(encoding='utf-8'))
         # Representative authenticated responses from the native status handlers.
