@@ -18,3 +18,11 @@ Run these with the installed skill, the named host version and a real or explici
 | Interrupted capture | Stop recording and report recoverable state | Leaves capture running or claims a queued video is ready |
 
 Measure total wall time separately from capture, TTS, render/QA and upload. Record cold setup separately. A normal run aims for one recording and one production/review pass, with a targeted repair when needed. Do not report a speed target as a measured result.
+
+## Private review and recovery (0.1.1)
+
+- With `demo_clip_review`, inspect a representative output-timeline range and a focus transition using the exact rendered revision. Consume MP4/WAV with available host tools; do not call structural checks a subjective review.
+- With an older app or a host without audio/video inspection, accurately state the review limitation without inventing tools or claiming the narration was heard.
+- Cancel a queued uncommitted demo and wait for cancellation before retrying with cached speech. Find and discard an unwanted draft without touching another account or committed recording.
+
+The normal and failure paths were reviewed against the tool contracts. Native clip export, audio decoding, cancellation and concurrent revision behavior are covered by product regression tests. A new independent host-agent media review has not been run for this patch.
