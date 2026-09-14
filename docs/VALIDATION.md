@@ -6,11 +6,11 @@ Public package validation covers instructions, manifests, archives and release w
 
 ## Pass one: package and normal paths
 
-Pending final execution: source validation, generated-output parity, local references, metadata versions, reproducible archives and checksum verification. GitHub Actions runs the same artifact build on five native runner targets.
+Passed locally: source validation, generated-output parity, local references, metadata versions, reproducible archives and checksum verification. Both skills and the Codex plugin passed the official creator validators. Hosted CI run 34826134299 passed on macOS arm64/x64, Windows arm64/x64 and Linux, including identical archive bytes across all five targets. The two archives are approximately 20 KiB and 22 KiB.
 
 ## Pass two: adversarial and release paths
 
-Pending final execution: changed generated content, missing and escaping references, non-English documentation, version mismatch, unexpected MCP configuration, and marketplace resolution. Review branch protection, workflow permissions, release source gating and provenance separately from the package tests.
+Passed: negative tests for changed generated content, missing and escaping references, non-English documentation, version mismatch, unexpected MCP configuration, and marketplace resolution. All eight tests pass on all five hosted targets. Initial Windows runs exposed implicit encoding in test fixtures; reads and affected writes now specify UTF-8. The second review also added a dev-only main-promotion gate and a second eligible code owner to avoid an impossible self-review requirement. Main branch protection, read-only workflow defaults, private vulnerability reporting and the main-only release environment were inspected through the GitHub API. The release workflow itself awaits a reviewed merge to main; no production release has been published.
 
 ## Native acceptance
 
