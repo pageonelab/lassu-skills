@@ -16,7 +16,7 @@ def encoded(value):
     return (json.dumps(value, indent=2, ensure_ascii=True) + '\n').encode()
 
 def generated(root=ROOT):
-    version = (root / 'VERSION').read_text().strip()
+    version = (root / 'VERSION').read_text(encoding='utf-8').strip()
     metadata = dict(name='lassu', version=version,
         description='Record concise narrated videos and edit screenshots with the local Lassu app.',
         author={'name': 'PageOneLab'}, skills='./skills/')
@@ -57,15 +57,15 @@ def sync(root=ROOT, check=False):
             path.write_bytes(data)
 
 def validate(root=ROOT):
-    version=(root/'VERSION').read_text().strip()
+    version=(root/'VERSION').read_text(encoding='utf-8').strip()
     if not re.fullmatch(r'(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)', version):
         raise ValueError('VERSION must be a stable semantic version')
-    compatibility=json.loads((root/'compatibility.json').read_text())
+    compatibility=json.loads((root/'compatibility.json').read_text(encoding='utf-8'))
     if compatibility['pluginVersion'] != version or compatibility['schemaVersion'] != 1:
         raise ValueError('Compatibility metadata/version mismatch')
     for name in SKILLS:
         directory=root/'skills'/name
-        text=(directory/'SKILL.md').read_text()
+        text=(directory/'SKILL.md').read_text(encoding='utf-8')
         if not text.startswith('---\nname: '+name+'\ndescription: ') or '\n---\n' not in text[4:]:
             raise ValueError('Invalid skill frontmatter: '+name)
         if len(text.splitlines()) > 200:
@@ -108,7 +108,7 @@ def archive(destination, files):
 
 def build(root=ROOT, destination=None):
     validate(root)
-    version=(root/'VERSION').read_text().strip()
+    version=(root/'VERSION').read_text(encoding='utf-8').strip()
     out=destination or root/'dist'
     out.mkdir(parents=True,exist_ok=True)
     common={name:(root/name).read_bytes() for name in ('LICENSE','VERSION','compatibility.json')}

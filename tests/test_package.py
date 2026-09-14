@@ -24,7 +24,7 @@ class PackageTests(unittest.TestCase):
         b=package.build(self.root,Path(self.temp.name)/'second')
         self.assertEqual({p.name:p.read_bytes() for p in a.iterdir()},
                          {p.name:p.read_bytes() for p in b.iterdir()})
-        metadata=json.loads((a/'release.json').read_text())
+        metadata=json.loads((a/'release.json').read_text(encoding='utf-8'))
         for artifact in metadata['artifacts']:
             raw=(a/artifact['name']).read_bytes()
             self.assertEqual(hashlib.sha256(raw).hexdigest(),artifact['sha256'])
@@ -41,7 +41,7 @@ class PackageTests(unittest.TestCase):
 
     def test_modified_generated_skill_fails(self):
         path=self.root/'plugins/lassu/skills/lassu-record-video/SKILL.md'
-        path.write_text(path.read_text()+'Changed instructions.\n')
+        path.write_text(path.read_text(encoding='utf-8')+'Changed instructions.\n')
         with self.assertRaisesRegex(ValueError,'Generated file differs'): package.validate(self.root)
 
     def test_missing_reference_fails(self):
@@ -50,11 +50,11 @@ class PackageTests(unittest.TestCase):
 
     def test_escaping_reference_fails(self):
         path=self.root/'skills/lassu-record-video/SKILL.md'
-        path.write_text(path.read_text()+'[outside](../../LICENSE)\n')
+        path.write_text(path.read_text(encoding='utf-8')+'[outside](../../LICENSE)\n')
         with self.assertRaisesRegex(ValueError,'Broken or escaping'): package.validate(self.root)
 
     def test_english_policy_includes_documentation(self):
-        (self.root/'docs/invalid.md').write_text(chr(0x4e2d))
+        (self.root/'docs/invalid.md').write_text(chr(0x4e2d), encoding='utf-8')
         with self.assertRaisesRegex(ValueError,'Non-English'): package.validate(self.root)
 
     def test_version_mismatch_fails(self):
@@ -66,8 +66,8 @@ class PackageTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'Unexpected'): package.validate(self.root)
 
     def test_two_marketplaces_resolve_identical_plugin(self):
-        c=json.loads((self.root/'.agents/plugins/marketplace.json').read_text())
-        a=json.loads((self.root/'.claude-plugin/marketplace.json').read_text())
+        c=json.loads((self.root/'.agents/plugins/marketplace.json').read_text(encoding='utf-8'))
+        a=json.loads((self.root/'.claude-plugin/marketplace.json').read_text(encoding='utf-8'))
         self.assertEqual(c['plugins'][0]['source']['path'],a['plugins'][0]['source'])
         self.assertEqual(c['name'],a['name'])
         self.assertEqual(c['plugins'][0]['policy']['installation'],'AVAILABLE')
