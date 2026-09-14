@@ -1,0 +1,17 @@
+{
+  "name": "lassu",
+  "owner": {
+    "name": "PageOneLab"
+  },
+  "metadata": {
+    "description": "Official Lassu skills for narrated videos and screenshot editing."
+  },
+  "plugins": [
+    {
+      "name": "lassu",
+      "source": "./plugins/lassu",
+      "version": "0.1.0",
+      "description": "Record concise narrated videos and edit screenshots with the local Lassu app."
+    }
+  ]
+}
