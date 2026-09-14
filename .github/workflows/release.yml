@@ -1,0 +1,58 @@
+name: Prepare release
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: skills-release
+  cancel-in-progress: false
+jobs:
+  source:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Require reviewed main source
+        env:
+          REF: ${{ github.ref }}
+        run: test "$REF" = refs/heads/main
+  verify:
+    needs: source
+    uses: ./.github/workflows/ci.yml
+  release:
+    needs: verify
+    runs-on: ubuntu-24.04
+    environment: release
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: package-linux-x64
+          path: dist
+      - name: Verify artifacts and release version
+        run: |
+          cd dist
+          sha256sum --check SHA256SUMS
+          cd ..
+          python - <<'PY'
+          import json, re
+          from pathlib import Path
+          version=Path('VERSION').read_text().strip()
+          assert re.fullmatch(r'(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)',version)
+          assert json.loads(Path('dist/release.json').read_text())['version']==version
+          PY
+      - uses: actions/attest-build-provenance@977bb373ede98d70efdf65b84cb5f73e068dcc2a # v3.0.0
+        with:
+          subject-path: dist/*
+      - name: Create draft from the tested commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version="$(cat VERSION)"
+          gh release create "v$version" dist/* --target "$GITHUB_SHA" --title "Lassu skills $version" --notes-file docs/RELEASE_NOTES.md --draft

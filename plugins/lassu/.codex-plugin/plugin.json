@@ -1,0 +1,18 @@
+{
+  "name": "lassu",
+  "version": "0.1.0",
+  "description": "Record concise narrated videos and edit screenshots with the local Lassu app.",
+  "author": {
+    "name": "PageOneLab"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Lassu",
+    "shortDescription": "Narrated videos and screenshot editing.",
+    "longDescription": "Use the signed-in Lassu desktop app to capture and produce videos or edit screenshots. Connect the app MCP server separately. Capabilities depend on the installed app.",
+    "developerName": "PageOneLab",
+    "category": "Productivity",
+    "capabilities": [],
+    "defaultPrompt": "Record a concise narrated demonstration with Lassu."
+  }
+}
