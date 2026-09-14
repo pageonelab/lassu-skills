@@ -27,7 +27,7 @@ Use the archive name for the actual version. Verify each artifact you consume. T
 
 - Default branch: `main`; development branch: `dev`.
 - Protect `main`: require a pull request, one code-owner review, dismissal of stale reviews, conversation resolution, and the up-to-date `CI gate` check. Disallow force pushes and deletion, including administrators.
-- Protect `dev`: require `CI gate`; disallow force pushes and deletion. Feature pull requests are recommended; bootstrap and maintainer work can use normal pushes.
+- Protect `dev`: require a pull request, resolved conversations and the up-to-date `CI gate`; disallow force pushes and deletion, including administrators. Maintainer changes use the same feature-branch pull request path.
 - Protect `v*` tags against updates and deletion. New tags are created by the release workflow.
 - Enable private vulnerability reporting and Dependabot alerts.
 - Environment `release`: allow only `main`; require a maintainer review and prevent self-review where team membership permits it.
