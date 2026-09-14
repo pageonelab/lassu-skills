@@ -41,7 +41,7 @@ class PackageTests(unittest.TestCase):
 
     def test_modified_generated_skill_fails(self):
         path=self.root/'plugins/lassu/skills/lassu-record-video/SKILL.md'
-        path.write_text(path.read_text(encoding='utf-8')+'Changed instructions.\n')
+        path.write_text(path.read_text(encoding='utf-8')+'Changed instructions.\n', encoding='utf-8')
         with self.assertRaisesRegex(ValueError,'Generated file differs'): package.validate(self.root)
 
     def test_missing_reference_fails(self):
@@ -50,7 +50,7 @@ class PackageTests(unittest.TestCase):
 
     def test_escaping_reference_fails(self):
         path=self.root/'skills/lassu-record-video/SKILL.md'
-        path.write_text(path.read_text(encoding='utf-8')+'[outside](../../LICENSE)\n')
+        path.write_text(path.read_text(encoding='utf-8')+'[outside](../../LICENSE)\n', encoding='utf-8')
         with self.assertRaisesRegex(ValueError,'Broken or escaping'): package.validate(self.root)
 
     def test_english_policy_includes_documentation(self):
