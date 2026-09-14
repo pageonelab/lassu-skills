@@ -63,6 +63,18 @@ def validate(root=ROOT):
     compatibility=json.loads((root/'compatibility.json').read_text(encoding='utf-8'))
     if compatibility['pluginVersion'] != version or compatibility['schemaVersion'] != 1:
         raise ValueError('Compatibility metadata/version mismatch')
+    # Readiness fields are shared by both native apps. Capability containers
+    # differ (macOS string array, Windows object) and are not installation gates.
+    if compatibility.get('runtimeReadinessChecks') != {
+        'lassu-record-video': 'canRecord', 'lassu-edit-screenshot': 'canScreenshot'
+    } or 'requiredCapabilities' in compatibility:
+        raise ValueError('Use shared native runtime readiness fields')
+    if compatibility.get('automationProtocol') != {'min': 1, 'max': 1}:
+        raise ValueError('Unvalidated automation protocol range')
+    if set(compatibility.get('platforms', [])) != {
+        'darwin-arm64', 'darwin-x64', 'win32-arm64', 'win32-x64'
+    }:
+        raise ValueError('Platform metadata must match validated native targets')
     for name in SKILLS:
         directory=root/'skills'/name
         text=(directory/'SKILL.md').read_text(encoding='utf-8')

@@ -61,6 +61,20 @@ class PackageTests(unittest.TestCase):
         (self.root/'VERSION').write_text('0.2.0\n')
         with self.assertRaisesRegex(ValueError,'mismatch'): package.validate(self.root)
 
+    def test_readiness_metadata_matches_both_native_status_shapes(self):
+        metadata=json.loads((self.root/'compatibility.json').read_text(encoding='utf-8'))
+        # Representative authenticated responses from the native status handlers.
+        for status in [
+            {'canRecord': False, 'canScreenshot': True, 'capabilities': ['display', 'window', 'screenshot']},
+            {'canRecord': False, 'canScreenshot': True, 'capabilities': {'recording': True, 'screenshot': True}},
+        ]:
+            checks=metadata['runtimeReadinessChecks']
+            self.assertFalse(status[checks['lassu-record-video']])
+            self.assertTrue(status[checks['lassu-edit-screenshot']])
+        metadata['runtimeReadinessChecks']['lassu-edit-screenshot']='screenshots'
+        (self.root/'compatibility.json').write_text(json.dumps(metadata), encoding='utf-8')
+        with self.assertRaisesRegex(ValueError,'readiness'): package.validate(self.root)
+
     def test_unexpected_executable_or_mcp_config_fails(self):
         (self.root/'plugins/lassu/.mcp.json').write_text('{}')
         with self.assertRaisesRegex(ValueError,'Unexpected'): package.validate(self.root)
