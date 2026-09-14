@@ -3,6 +3,9 @@
   "owner": {
     "name": "PageOneLab"
   },
+  "metadata": {
+    "description": "Official Lassu skills for narrated videos and screenshot editing."
+  },
   "plugins": [
     {
       "name": "lassu",

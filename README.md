@@ -16,7 +16,7 @@ The agent handles preparation, capture, narration, production, and review. Updat
 
 You need Codex or Claude Code and the Lassu desktop app, already signed in. In Lassu preferences, enable **Allow AI access** and use the app's MCP setup for your actual installation path. Grant the operating-system screen permission when requested. Do not put Lassu session credentials or a Deepgram key in an AI client configuration.
 
-The current production setup may copy a command or configuration. A direct **Connect** flow and self-contained macOS runtime are being implemented in the product repository; this public plugin does not remove a runtime dependency from an older app. Windows already carries its private runtime. Update the app when the new integration release becomes available.
+The current production setup may copy a command or configuration. The direct **Connect** flow and self-contained runtime are implemented on the product development branch and await a production release; this public plugin does not remove a runtime dependency from an older app. Windows already carries its private runtime. Update the app when the new integration release becomes available.
 
 Choose one skill installation method per client. Do not install both personal copies and the plugin.
 
@@ -43,9 +43,10 @@ Add `pageonelab/lassu-skills` as a marketplace in a Codex version with plugin su
 
 ```sh
 codex plugin marketplace add pageonelab/lassu-skills
+codex plugin add lassu@lassu
 ```
 
-Then install Lassu from Codex's plugin browser. For development, add the Git repository with `--ref dev`. The desktop app does not require a separate Codex CLI installation for normal MCP configuration. Availability of plugin management depends on the host version; do not use undocumented app APIs to automate installation.
+Alternatively, install Lassu from Codex's plugin browser. For development, use `codex plugin marketplace add pageonelab/lassu-skills --ref dev`. The desktop app does not require a separate Codex CLI installation for normal MCP configuration. Availability of plugin management depends on the host version; do not use undocumented app APIs to automate installation.
 
 ### Personal skills or another compatible agent
 
