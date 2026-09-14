@@ -12,13 +12,9 @@
     "win32-arm64",
     "win32-x64"
   ],
-  "requiredCapabilities": {
-    "lassu-record-video": [
-      "recording"
-    ],
-    "lassu-edit-screenshot": [
-      "screenshots"
-    ]
+  "runtimeReadinessChecks": {
+    "lassu-record-video": "canRecord",
+    "lassu-edit-screenshot": "canScreenshot"
   },
   "optionalCapabilities": {
     "narratedProduction": "demo_production"

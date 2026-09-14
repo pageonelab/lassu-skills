@@ -17,3 +17,5 @@ Passed: negative tests for changed generated content, missing and escaping refer
 The prior product development run produced an approximately 88-second Fullerton Google Hotels narrated video on macOS. That run predates this public package and does not validate this package's installation flow or Windows narration. No Windows visible-desktop acceptance is recorded here.
 
 See `tests/scenarios.md` for the behavior evaluation matrix. Record actual host/app versions and evidence when running it. Do not mark unavailable production credentials, platform signing or interactive device tests as passed.
+
+The compatibility review also found that the native capability containers differ by platform. Metadata now references shared runtime readiness fields, with a regression case covering both native status shapes and independent screenshot availability. Nine local packaging tests pass after this correction.

@@ -71,6 +71,8 @@ The skills and plugin archives are identical across macOS Apple Silicon/Intel an
 
 `compatibility.json` describes the protocol and optional capabilities. The app, CLI, skills and browser integration have independent versions. Plugin installations update through the host; personal installations update through their owner. Use released versions for production, and `dev` for testing. A release is not published merely by pushing a branch.
 
+The metadata's `runtimeReadinessChecks` refer to the shared `canRecord` and `canScreenshot` status fields. Check them when performing an operation, not when installing instructions. macOS exposes a capability array and Windows exposes a capability object. A recording quota or a busy recorder must not be mistaken for an incompatible plugin or used to block otherwise available screenshots.
+
 ## Development
 
 Maintainers need Python 3.11 or newer. End users do not need Python, Node.js, npm, or Git to use downloaded skill archives.
