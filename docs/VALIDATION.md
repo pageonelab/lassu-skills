@@ -41,6 +41,12 @@ The instruction change was walked through against the default tutorial, explicit
 
 This is a source/contract walkthrough, not an independent agent execution. All 12 package tests, generated-file parity, deterministic archive building, English-content checks, and the recording skill creator validator passed locally. No live video was recorded or published to validate this instruction change, and no user foreground app or window was manipulated. Concurrent-work acceptance still requires a real host test with another app active and physical input in use; Windows capture behavior requires its own device validation.
 
+## Coding daily-update discovery
+
+Source walkthrough against the daily-update scenario in `tests/scenarios.md`: discovery now uses relevant file timestamps, version-control records, and accessible AI work history; timestamps and summaries require verification. The optional scope check allows the user to confirm or add items and is skipped when scope is already specified. Local, staging, and production demonstrations require the chosen environment to contain the described changes. Narration stays brief and conversational.
+
+Failure-path review covered misleading timestamps, incomplete work, and an environment missing a change. Existing recording, review, permission, language, and sharing requirements remain in place. All 12 package tests, generated-file parity, and archive building passed locally. This was a source review; no host client or live recording was used, so client-version and native-media acceptance do not apply to this check.
+
 ## Foundation Engineering merge policy
 
 On September 15, 2026 (UTC), the repository owner requested contributor self-service merging. GitHub membership and access checks confirmed that all four Foundation Engineering members have Maintain or Admin access. Main now requires zero approving reviews, with code-owner approval and last-push approval disabled. The existing strict `CI gate`, required pull requests, conversation resolution, administrator enforcement, and force-push/deletion protections remain enabled. The separate draft-release environment retains its existing approval rule.
