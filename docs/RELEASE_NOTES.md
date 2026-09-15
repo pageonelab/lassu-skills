@@ -1,5 +1,11 @@
 # Release notes
 
+## 0.1.3
+
+Coding daily updates discover relevant work through the current conversation, accessible AI work history, file timestamps, and version-control records. Verify these leads and completion status before choosing a few meaningful outcomes. An optional scope check lets the user add missing items when they have not already specified the scope.
+
+Verify that the selected local, staging, or production environment includes the changes being shown. Use brief, conversational narration focused on what changed, why it matters, and the result.
+
 ## 0.1.2
 
 New AI-created videos use Global access after review and playback readiness, unless the user explicitly requests another audience. Global maps to the existing `anyoneWithLink` sharing audience and `public` backend privacy. Drafts and review clips remain private; screenshots and unrelated existing recordings retain their prior behavior.
