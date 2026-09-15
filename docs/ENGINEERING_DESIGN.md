@@ -4,7 +4,7 @@ Status: implementation in progress. Repository packaging and native product chan
 
 ## 1. Product contract
 
-A signed-in Lassu desktop user asks Codex or Claude Code for a daily update, feature walkthrough or tutorial. The agent operates a visible local app, records it with Lassu, produces concise narration, reviews the result and returns a playable video. The user does not write a script, edit a timeline or approve an intermediate draft.
+A signed-in Lassu desktop user asks Codex or Claude Code for a daily update, feature walkthrough or tutorial. The agent operates a visible local app, records it with Lassu, produces concise narration, reviews the result and returns a playable video. The user does not write a script, edit a timeline or approve an intermediate draft. Newly created AI videos default to Global access after review and playback readiness, using the existing `anyoneWithLink` audience (`privacy: public`); explicit private/team requests override the default. Drafts and review artifacts remain private. The default capture is an exact task window operated without stealing OS focus or physical input; the user can continue working in another app. Never enter full screen, maximize, or rearrange existing user windows to improve a recording.
 
 Daily updates and ordinary tutorials should generally be shorter than 300 seconds. This is a soft editorial preference. Short content must not be padded, and essential information must not be cut merely to meet that duration. Capture safety limits and account quotas are separate constraints.
 
@@ -125,7 +125,7 @@ Rollback publishes a new signed sequence pointing to a known-good version; it do
 
 ## 8. Browser integration
 
-Reuse a host browser/computer tool when it controls the actual local visible window. Verify the source before capture. Browser availability cannot be inferred from a plugin installation or from a remote tab.
+Reuse a host browser/computer tool only when it controls the exact local task window without OS activation or global mouse/keyboard input. Verify both the window identity and background-control behavior before capture. The demonstrated tab must remain selected within the task window, which may be occluded by the user's other work. Foreground-only tools cannot fulfill the default parallel-work contract. Do not silently switch to display capture, maximize or resize user windows, restore focus after every action, or use a hidden/headless/cloud tab as the recorded source. Browser availability and background control cannot be inferred from plugin installation.
 
 If required, ship a separately versioned fixed Playwright MCP component running under the private runtime. Load only verified component paths; do not evaluate arbitrary downloaded JavaScript. Use installed Chrome or Edge in headed mode, avoiding a bundled Chromium download by default. Bundle the pinned server's resources and test the resulting artifact, not just an import from a developer checkout.
 
@@ -143,7 +143,7 @@ Focus bounds are normalized to the captured raster, not a guessed browser viewpo
 
 Finalization first prepares and renders a private review rendition. At most two speech segments synthesize concurrently. Cache keys include the concrete voice, provider, text and synthesis settings. Reuse unchanged speech. Validate scene fit, source ranges, decodable frames, audio energy/clipping and expected duration. A contact sheet cannot prove every frame or spoken word is correct; inspect an affected section when there is a concrete concern.
 
-Commit requires the exact inspected revision. A changed revision requires a new review. Upload only the reviewed rendition and poll until playback is ready. Preserve privacy and share only to the intended audience. Never claim a queued, silent or missing rendition is complete.
+Commit requires the exact inspected revision. A changed revision requires a new review. Upload only the reviewed rendition and poll until playback is ready. Apply and verify the final audience with `share_recording`: Global (`anyoneWithLink`) for a newly created AI video unless the user specified private/team. Keep draft review private and preserve unrelated existing recordings. On a version conflict, reconcile a newer user choice instead of overwriting it. Never claim a queued, silent or missing rendition is complete.
 
 ## 10. Voice routing and backend security
 
@@ -163,9 +163,9 @@ The native build pipeline must compile all supported architectures and smoke-tes
 
 ## 12. CI, release and repository governance
 
-Feature branches target `dev`. Promote `dev` to protected `main` through a reviewed PR. All content and commits are English. Keep both long-lived branches; reconcile history after a squash promotion. Use a stable required gate so failed or skipped matrix jobs cannot disappear from branch protection.
+Feature branches target `dev`. Promote `dev` to protected `main` through a PR. Any Foundation Engineering contributor with repository write access may merge their own PR after required checks pass and conversations are resolved; independent approval and code-owner approval are not required. All content and commits are English. Keep both long-lived branches; reconcile history after a squash promotion. Use a stable required gate so failed or skipped matrix jobs cannot disappear from branch protection.
 
-Public CI runs on macOS arm64/x64, Windows arm64/x64 and Linux. It validates source, local references, English-only content, compatibility, generated files, deterministic packaging and archive checksums. Fork checks are read-only. Pin Actions by commit and use Dependabot for reviewed updates.
+Public CI runs on macOS arm64/x64, Windows arm64/x64 and Linux. It validates source, local references, English-only content, compatibility, generated files, deterministic packaging and archive checksums. Fork checks are read-only. Pin Actions by commit and use Dependabot for updates through pull requests.
 
 The release workflow accepts only `main`, reruns the matrix, compares exact artifacts, attests them and creates a draft release behind a protected environment. Publishing is a separate reviewed action. Production native signing secrets remain in the private product repository. Missing Windows signing or update-key credentials block production release rather than producing a false success.
 

@@ -1,3 +1,15 @@
+# Release notes
+
+## 0.1.2
+
+New AI-created videos use Global access after review and playback readiness, unless the user explicitly requests another audience. Global maps to the existing `anyoneWithLink` sharing audience and `public` backend privacy. Drafts and review clips remain private; screenshots and unrelated existing recordings retain their prior behavior.
+
+Default to an exact task-window capture with background control. Do not enter full screen, maximize, rearrange user windows, or compete for OS focus and physical input. Hosts that only support foreground automation must report that limitation. This release adds workflow guidance, not a new browser-control engine.
+
+## 0.1.1
+
+Use bounded private audio/video clips to review narrated demos when the app exposes `demo_clip_review`. Document queued-production cancellation and draft recovery through `demo_management`. Older app capabilities remain supported; unavailable media review is reported accurately.
+
 # Lassu skills 0.1.0
 
 Initial development release of the canonical narrated-video and screenshot-editing skills, packaged for Codex and Claude Code.

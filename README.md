@@ -2,7 +2,7 @@
 
 Official skills and plugins for creating narrated videos and editing screenshots with [Lassu](https://lassu.ai) in Codex and Claude Code.
 
-> Development preview. `dev` contains the next release. `main` is the reviewed distribution branch. The plugin provides instructions; it requires a separately connected, signed-in Lassu desktop app. Platform capabilities depend on the installed app.
+> Development preview. `dev` contains the next release. `main` is the distribution branch validated by CI. The plugin provides instructions; it requires a separately connected, signed-in Lassu desktop app. Platform capabilities depend on the installed app.
 
 Ask your agent:
 
@@ -10,7 +10,7 @@ Ask your agent:
 
 > Record how to compare prices for The Fullerton Hotel Singapore in Google Hotels. Show the dates and currency clearly.
 
-The agent handles preparation, capture, narration, production, and review. Updates normally stay below five minutes; this is editorial guidance, not a hard cutoff. Shorter useful videos are preferred. No user script or timeline editing is required when the app exposes `demo_production` and the agent can operate a visible local browser.
+The agent handles preparation, capture, narration, production, and review. It records a dedicated task window using background-capable controls so the user can work elsewhere; it must not take over the desktop, enter full screen, or rearrange user windows. A host with only foreground mouse/keyboard control cannot provide this parallel-work flow. Updates normally stay below five minutes; this is editorial guidance, not a hard cutoff. Shorter useful videos are preferred. No user script or timeline editing is required when the app exposes `demo_production` and the agent can operate a visible local browser.
 
 ## Install
 
@@ -58,13 +58,13 @@ Do not overwrite an existing personal skill. Back it up or uninstall the previou
 
 Start a fresh agent session and ask it to check Lassu status. A successful check must identify the reachable app, login state, screen permission and available capabilities. Installed files alone do not prove that the host loaded the MCP server.
 
-The browser/computer tool belongs to the AI host. It must operate a visible browser on the same local desktop that Lassu captures. A cloud browser, hidden tab, WSL session, or remote machine is not automatically compatible. This package does not install a browser or copy browser profiles.
+The browser/computer tool belongs to the AI host. It must operate the exact capturable task window on the same local desktop without taking OS focus or driving the user's physical mouse/keyboard. The page must be selected inside that window; the window may remain behind the user's other work. A cloud browser, hidden tab, WSL session, or remote machine is not automatically compatible. This package does not install a browser or copy browser profiles.
 
 ## Voice, privacy, and sharing
 
 The native app asks the authenticated production backend whether the requested language is supported. Supported languages use backend speech generation. Unsupported languages use an installed system voice in that language when available. Login, quota, service, and network failures must not silently change the provider. If no suitable system voice exists, the agent reports that requirement.
 
-The app retains credentials. Draft production is private. The agent reviews the actual result before committing it and preserves the requested audience. It must not send a link to someone else without authorization. Account limits still apply.
+The app retains credentials. Draft production and review clips are private. After review and playback readiness, newly created AI videos default to **Global / anyone with the link** (`audience: "anyoneWithLink"`, backend `privacy: "public"`). An explicit private or team request takes precedence. The agent applies and verifies the final audience before returning the playable result; this does not change unrelated existing recordings or screenshot defaults. It must not send a link to someone else without authorization. Account limits still apply.
 
 ## Compatibility and updates
 
