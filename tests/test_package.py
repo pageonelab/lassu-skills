@@ -58,7 +58,7 @@ class PackageTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'Non-English'): package.validate(self.root)
 
     def test_version_mismatch_fails(self):
-        (self.root/'VERSION').write_text('0.2.0\n')
+        (self.root/'VERSION').write_text('99.0.0\n')
         with self.assertRaisesRegex(ValueError,'mismatch'): package.validate(self.root)
 
     def test_legacy_platform_setup_fails(self):
@@ -106,5 +106,14 @@ class PackageTests(unittest.TestCase):
         self.assertEqual(c['plugins'][0]['source']['path'],a['plugins'][0]['source'])
         self.assertEqual(c['name'],a['name'])
         self.assertEqual(c['plugins'][0]['policy']['installation'],'AVAILABLE')
+
+    def test_cloud_drawing_has_independent_readiness_and_portable_references(self):
+        metadata=json.loads((self.root/'compatibility.json').read_text())
+        self.assertNotIn('lassu-draw', metadata['runtimeReadinessChecks'])
+        self.assertFalse(metadata['remoteServices']['lassu-draw']['requiresDesktop'])
+        self.assertEqual(metadata['remoteServices']['lassu-draw']['readinessTool'], 'lassu_draw_get_context')
+        metadata['remoteServices']['lassu-draw']['requiresDesktop']=True
+        (self.root/'compatibility.json').write_text(json.dumps(metadata))
+        with self.assertRaisesRegex(ValueError,'independently'): package.validate(self.root)
 
 if __name__=='__main__': unittest.main()

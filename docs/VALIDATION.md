@@ -50,3 +50,11 @@ Failure-path review covered misleading timestamps, incomplete work, and an envir
 ## Foundation Engineering merge policy
 
 On September 15, 2026 (UTC), the repository owner requested contributor self-service merging. GitHub membership and access checks confirmed that all four Foundation Engineering members have Maintain or Admin access. Main now requires zero approving reviews, with code-owner approval and last-push approval disabled. The existing strict `CI gate`, required pull requests, conversation resolution, administrator enforcement, and force-push/deletion protections remain enabled. The separate draft-release environment retains its existing approval rule.
+
+## Draw and walkthroughs (0.2.0 development)
+
+The new Draw skill and recording reference were reviewed against the implemented remote MCP and native v2 contracts. The product regression run exercised real MongoDB authorization and mutation transactions, native Excalidraw rendering in Chrome, silent MP4 decoding and seeking, and native image/capture/second-source composition with narration. These tests establish tool behavior, not independent agent judgment.
+
+Local packaging validation covers all three skills, generated plugin parity, deterministic archives, and separate remote-service readiness. The cloud-only case does not depend on native canRecord or canScreenshot. The existing daily-update discovery, single-source recording, screenshot, audience and window-isolation instructions remain in effect.
+
+No new independent Codex/Claude agent walkthrough, production OAuth deployment, Windows native device run, release publication or hosted CI result is claimed for this development change. Run the new cases in tests/scenarios.md with actual host versions before a production release.

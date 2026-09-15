@@ -10,7 +10,7 @@ import subprocess
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-SKILLS = ('lassu-record-video', 'lassu-edit-screenshot')
+SKILLS = ('lassu-record-video', 'lassu-edit-screenshot', 'lassu-draw')
 
 def encoded(value):
     return (json.dumps(value, indent=2, ensure_ascii=True) + '\n').encode()
@@ -18,11 +18,11 @@ def encoded(value):
 def generated(root=ROOT):
     version = (root / 'VERSION').read_text(encoding='utf-8').strip()
     metadata = dict(name='lassu', version=version,
-        description='Record concise narrated videos and edit screenshots with the local Lassu app.',
+        description='Draw editable diagrams, produce narrated walkthroughs and edit screenshots with Lassu.',
         author={'name': 'PageOneLab'}, skills='./skills/')
     codex = dict(metadata, interface=dict(displayName='Lassu',
-        shortDescription='Narrated videos and screenshot editing.',
-        longDescription='Use the signed-in Lassu desktop app to capture and produce videos or edit screenshots. Connect the app MCP server separately. Capabilities depend on the installed app.',
+        shortDescription='Diagrams, narrated videos and screenshots.',
+        longDescription='Use remote Lassu Draw for editable diagrams and presentations. Connect the desktop app separately to capture and produce narrated videos or edit screenshots. Capabilities depend on each connected service.',
         developerName='PageOneLab', category='Productivity', capabilities=[],
         defaultPrompt='Record a concise narrated demonstration with Lassu.'))
     result = {
@@ -72,6 +72,12 @@ def validate(root=ROOT):
         raise ValueError('Use shared native runtime readiness fields')
     if compatibility.get('automationProtocol') != {'min': 1, 'max': 1}:
         raise ValueError('Unvalidated automation protocol range')
+    if compatibility.get('remoteServices', {}).get('lassu-draw') != {
+        'transport': 'streamable-http', 'endpoint': 'https://api.lassu.ai/mcp/draw',
+        'authentication': 'oauth', 'readinessTool': 'lassu_draw_get_context',
+        'capability': 'draw_authoring_v1', 'requiresDesktop': False
+    }:
+        raise ValueError('Draw readiness must use the remote service independently of the desktop')
     if set(compatibility.get('platforms', [])) != {
         'darwin-arm64', 'darwin-x64', 'win32-arm64', 'win32-x64'
     }:
