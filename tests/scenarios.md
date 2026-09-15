@@ -31,3 +31,17 @@ Measure total wall time separately from capture, TTS, render/QA and upload. Reco
 - Cancel a queued uncommitted demo and wait for cancellation before retrying with cached speech. Find and discard an unwanted draft without touching another account or committed recording.
 
 The normal and failure paths were reviewed against the tool contracts. Native clip export, audio decoding, cancellation and concurrent revision behavior are covered by product regression tests. A new independent host-agent media review has not been run for this patch.
+
+## Draw and mixed-source walkthroughs (0.2.0)
+
+| Scenario | Expected behavior | Failure condition |
+| --- | --- | --- |
+| Cloud-only architecture drawing | Use Draw context and remote OAuth; create native shapes and inspect a rendered preview | Requires desktop login or substitutes a raster sketch for an editable board |
+| Manual edit during AI mutation | Reread after an epoch/revision conflict and preserve unrelated objects | Overwrites the user's scene or repeats changed arguments with an old retry key |
+| Frozen explanation after board edits | Seek independent presentation steps against the saved snapshot | Silently incorporates subsequent board edits or claims readiness before image decoding |
+| Drawing leads into product details | Use concise overview narration followed by verified UI/code evidence | Repeats diagram labels, narrates incidental cursor motion, or records without a video request |
+| Same-account Draw import | Exchange a short-lived handoff and inspect the returned registered source ID | Passes bearer URLs, arbitrary files or credentials into native composition |
+| Multiple windows and a diagram | Require v2 capabilities, stop each component capture, use per-source time and one output admission | Applies global timestamps to each source, uploads components separately, or bypasses limits |
+| Measured narration | Measure speech with prepare_demo_narration before final visual timing; reuse cached speech | Reports estimated speech duration as measured or removes narration after a failure |
+| Revoked Draw access or expired source | Preserve recoverable local work and report the unavailable source | Publishes a rendition after a failed access check or makes the board public |
+| Old app or unavailable renderer | Use a supported single-window workflow when it meets the request; otherwise explain the missing capability | Calls unsupported v2 tools or returns a queued job as a finished export |

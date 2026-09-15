@@ -10,8 +10,8 @@
     {
       "name": "lassu",
       "source": "./plugins/lassu",
-      "version": "0.1.3",
-      "description": "Record concise narrated videos and edit screenshots with the local Lassu app."
+      "version": "0.2.0",
+      "description": "Draw editable diagrams, produce narrated walkthroughs and edit screenshots with Lassu."
     }
   ]
 }

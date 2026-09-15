@@ -1,10 +1,12 @@
 # Lassu skills
 
-Official skills and plugins for creating narrated videos and editing screenshots with [Lassu](https://lassu.ai) in Codex and Claude Code.
+Official skills and plugins for drawing editable diagrams, creating narrated videos and editing screenshots with [Lassu](https://lassu.ai) in Codex and Claude Code.
 
-> Development preview. `dev` contains the next release. `main` is the distribution branch validated by CI. The plugin provides instructions; it requires a separately connected, signed-in Lassu desktop app. Platform capabilities depend on the installed app.
+> Development preview. `dev` contains the next release. `main` is the distribution branch validated by CI. The plugin provides instructions. Draw uses a separately connected remote MCP service; recording and screenshot editing use the signed-in Lassu desktop app. Check service and app capabilities before use.
 
 Ask your agent:
+
+> Draw the request flow, explain it briefly, then show the implementation and product behavior in a narrated walkthrough.
 
 > Create a concise video of today's update. Show the changes on localhost and narrate the important results.
 
@@ -14,7 +16,9 @@ The agent handles preparation, capture, narration, production, and review. It re
 
 ## Install
 
-You need Codex or Claude Code and the Lassu desktop app, already signed in. In Lassu preferences, enable **Allow AI access** and use the app's MCP setup for your actual installation path. Grant the operating-system screen permission when requested. Do not put Lassu session credentials or a Deepgram key in an AI client configuration.
+You need an AI host with skill and MCP support. For drawing, connect the remote Draw MCP endpoint through the host and complete its OAuth consent flow; see [Draw connection](skills/lassu-draw/references/connection.md). Drawing does not require the desktop app. The new Draw connection is available only on deployments with Draw AI enabled and must report its capabilities before use.
+
+For recording and screenshots, use Codex or Claude Code and the Lassu desktop app, already signed in. In Lassu preferences, enable **Allow AI access** and use the app's MCP setup for your actual installation path. Grant the operating-system screen permission when requested. Do not put Lassu session credentials or a Deepgram key in an AI client configuration.
 
 The current production setup may copy a command or configuration. The direct **Connect** flow and self-contained runtime are implemented on the product development branch and await a production release; this public plugin does not remove a runtime dependency from an older app. Windows already carries its private runtime. Update the app when the new integration release becomes available.
 
@@ -50,17 +54,19 @@ Alternatively, install Lassu from Codex's plugin browser. For development, use `
 
 ### Personal skills or another compatible agent
 
-A released `lassu-skills-<version>.zip` contains `skills/lassu-record-video` and `skills/lassu-edit-screenshot`, including their references. Place those directories in the host's user skill location, such as `~/.agents/skills` for Codex or `~/.claude/skills` for Claude Code. On Windows, resolve `~` to the current user's profile. No package manager is required. Connect Lassu's MCP server through the host's supported configuration UI.
+A released `lassu-skills-<version>.zip` contains `skills/lassu-draw`, `skills/lassu-record-video` and `skills/lassu-edit-screenshot`, including their references. Place those directories in the host's user skill location, such as `~/.agents/skills` for Codex or `~/.claude/skills` for Claude Code. On Windows, resolve `~` to the current user's profile. No package manager is required. Connect Lassu's MCP server through the host's supported configuration UI.
 
 Do not overwrite an existing personal skill. Back it up or uninstall the previous installation through its owner first. An app-managed installation, when available, owns updates to its own files only.
 
 ## Check the connection
 
-Start a fresh agent session and ask it to check Lassu status. A successful check must identify the reachable app, login state, screen permission and available capabilities. Installed files alone do not prove that the host loaded the MCP server.
+Start a fresh agent session. For Draw, call `lassu_draw_get_context` and verify the account, workspace, quota and renderer readiness. For native operations, ask the agent to check Lassu status. A successful check must identify the reachable app, login state, screen permission and available capabilities. Installed files alone do not prove that the host loaded the MCP server.
 
 The browser/computer tool belongs to the AI host. It must operate the exact capturable task window on the same local desktop without taking OS focus or driving the user's physical mouse/keyboard. The page must be selected inside that window; the window may remain behind the user's other work. A cloud browser, hidden tab, WSL session, or remote machine is not automatically compatible. This package does not install a browser or copy browser profiles.
 
 ## Voice, privacy, and sharing
+
+Draw boards, presentation snapshots and render artifacts remain private and access-controlled. Native import uses a short-lived handoff for the same signed-in user; a public final video does not make its source board public.
 
 The native app asks the authenticated production backend whether the requested language is supported. Supported languages use backend speech generation. Unsupported languages use an installed system voice in that language when available. Login, quota, service, and network failures must not silently change the provider. If no suitable system voice exists, the agent reports that requirement.
 
