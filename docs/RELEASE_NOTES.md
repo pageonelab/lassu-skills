@@ -1,5 +1,11 @@
 # Release notes
 
+## 0.2.0
+
+Add the `lassu-draw` skill for editable flowcharts, architecture diagrams, explanations, and wireframes through the remote Draw MCP service. It discovers available capabilities, checks current board revisions, and previews results before using them in a presentation.
+
+Video walkthroughs can start with a high-level Draw explanation and continue into product, code, or tool details. Direct Draw asset import and multiple captured sources require the matching native capabilities; existing single-source recording remains supported. Service deployment and a compatible app are required for these features.
+
 ## 0.1.3
 
 Coding daily updates discover relevant work through the current conversation, accessible AI work history, file timestamps, and version-control records. Verify these leads and completion status before choosing a few meaningful outcomes. An optional scope check lets the user add missing items when they have not already specified the scope.
