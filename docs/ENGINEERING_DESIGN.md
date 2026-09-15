@@ -163,9 +163,9 @@ The native build pipeline must compile all supported architectures and smoke-tes
 
 ## 12. CI, release and repository governance
 
-Feature branches target `dev`. Promote `dev` to protected `main` through a reviewed PR. All content and commits are English. Keep both long-lived branches; reconcile history after a squash promotion. Use a stable required gate so failed or skipped matrix jobs cannot disappear from branch protection.
+Feature branches target `dev`. Promote `dev` to protected `main` through a PR. Any Foundation Engineering contributor with repository write access may merge their own PR after required checks pass and conversations are resolved; independent approval and code-owner approval are not required. All content and commits are English. Keep both long-lived branches; reconcile history after a squash promotion. Use a stable required gate so failed or skipped matrix jobs cannot disappear from branch protection.
 
-Public CI runs on macOS arm64/x64, Windows arm64/x64 and Linux. It validates source, local references, English-only content, compatibility, generated files, deterministic packaging and archive checksums. Fork checks are read-only. Pin Actions by commit and use Dependabot for reviewed updates.
+Public CI runs on macOS arm64/x64, Windows arm64/x64 and Linux. It validates source, local references, English-only content, compatibility, generated files, deterministic packaging and archive checksums. Fork checks are read-only. Pin Actions by commit and use Dependabot for updates through pull requests.
 
 The release workflow accepts only `main`, reruns the matrix, compares exact artifacts, attests them and creates a draft release behind a protected environment. Publishing is a separate reviewed action. Production native signing secrets remain in the private product repository. Missing Windows signing or update-key credentials block production release rather than producing a false success.
 

@@ -2,10 +2,10 @@
 
 ## Branches and review
 
-1. Merge reviewed feature pull requests into `dev` after `CI gate` passes.
+1. Merge feature pull requests into `dev` after `CI gate` passes.
 2. Update `VERSION`, `compatibility.json` and `docs/RELEASE_NOTES.md`; run `python scripts/package.py sync` and all local checks. Commit the generated output.
 3. Open a pull request from `dev` to `main`. Review the behavior and the failure/recovery paths separately. Include native app evidence when changing capability claims.
-4. Require `CI gate`, resolved conversations and one review from a code owner. Merge only after the checks pass. Keep `dev` and `main`; after squash promotion, merge `main` back into `dev` so their history remains aligned.
+4. Require `CI gate` and resolved conversations. Any Foundation Engineering contributor with repository write access may merge, including the pull request author; no approval from another contributor or code owner is required. Keep `dev` and `main`; after squash promotion, merge `main` back into `dev` so their history remains aligned.
 
 Squash merges are appropriate for feature changes. The repository also enables merge commits for the main-to-dev reconciliation PR: use a merge commit for that PR so main remains an ancestor of dev. Squashing the reconciliation would discard the ancestry it is meant to preserve. Both merge methods remain subject to branch protection and required checks.
 
@@ -28,14 +28,15 @@ Use the archive name for the actual version. Verify each artifact you consume. T
 ## Repository settings
 
 - Default branch: `main`; development branch: `dev`.
-- Protect `main`: require a pull request, one code-owner review, dismissal of stale reviews, conversation resolution, and the up-to-date `CI gate` check. Disallow force pushes and deletion, including administrators.
+- Foundation Engineering owns this repository and has Maintain access. Every team member can merge a passing pull request without a second person's approval. `CODEOWNERS` points to the team for ownership and optional review routing.
+- Protect `main`: require a pull request, conversation resolution, and the up-to-date `CI gate` check. Set required approving reviews to zero; disable required code-owner reviews, last-push approval and stale-review dismissal. Disallow force pushes and deletion, including administrators.
 - Protect `dev`: require a pull request, resolved conversations and the up-to-date `CI gate`; disallow force pushes and deletion, including administrators. Maintainer changes use the same feature-branch pull request path.
 - Protect `v*` tags against updates and deletion. New tags are created by the release workflow.
 - Enable private vulnerability reporting and Dependabot alerts.
 - Environment `release`: allow only `main`; require a maintainer review and prevent self-review where team membership permits it.
 - Use read-only default workflow permissions. Never give fork checks signing or production credentials.
 
-A release requires a second maintainer when self-review prevention is enabled. Keep missing approval or signing prerequisites visible; do not bypass protection to make a green release.
+The separate `release` environment still requires a second maintainer when self-review prevention is enabled; this is a draft-release job approval, not a pull request merge requirement. Keep missing release approval or signing prerequisites visible.
 
 ## Rollback and update ownership
 

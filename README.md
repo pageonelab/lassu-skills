@@ -2,7 +2,7 @@
 
 Official skills and plugins for creating narrated videos and editing screenshots with [Lassu](https://lassu.ai) in Codex and Claude Code.
 
-> Development preview. `dev` contains the next release. `main` is the reviewed distribution branch. The plugin provides instructions; it requires a separately connected, signed-in Lassu desktop app. Platform capabilities depend on the installed app.
+> Development preview. `dev` contains the next release. `main` is the distribution branch validated by CI. The plugin provides instructions; it requires a separately connected, signed-in Lassu desktop app. Platform capabilities depend on the installed app.
 
 Ask your agent:
 

@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
-      - name: Require reviewed main source
+      - name: Require main source
         env:
           REF: ${{ github.ref }}
         run: test "$REF" = refs/heads/main
