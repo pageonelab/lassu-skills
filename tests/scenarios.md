@@ -50,3 +50,12 @@ The normal and failure paths were reviewed against the tool contracts. Native cl
 | Measured narration | Measure speech with prepare_demo_narration before final visual timing; reuse cached speech | Reports estimated speech duration as measured or removes narration after a failure |
 | Revoked Draw access or expired source | Preserve recoverable local work and report the unavailable source | Publishes a rendition after a failed access check or makes the board public |
 | Old app or unavailable renderer | Use a supported single-window workflow when it meets the request; otherwise explain the missing capability | Calls unsupported v2 tools or returns a queued job as a finished export |
+
+## Local Draw login reuse
+
+- Updated App signed in with AI access: select `lassu` Draw context, create/edit/render on that connection, and never open remote OAuth or require screen permission/recording quota.
+- No reachable local App or a cloud agent: use the bundled remote connection, authorize if needed, and verify its account before editing.
+- Older App: diagnose absent Draw tools/`UNKNOWN_TOOL`; update it or use remote OAuth. Plugin installation itself requests no remote consent.
+- Local login expired/AI access disabled: report the local state without silently switching accounts. Permission, quota, service and revision failures stay on the selected connection.
+- Account changes during an in-flight call: the App and API reject the stale owner. An uncertain mutation retains its original connection and retry key.
+- Both local and remote tools exist for different accounts: prefer local, keep all related calls there, and never infer shared identity from matching tool names.

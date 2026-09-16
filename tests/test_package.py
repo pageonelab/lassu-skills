@@ -126,7 +126,15 @@ class PackageTests(unittest.TestCase):
         self.assertEqual(c['plugins'][0]['source']['path'],a['plugins'][0]['source'])
         self.assertEqual(c['name'],a['name'])
         self.assertEqual(c['plugins'][0]['policy']['installation'],'AVAILABLE')
-        self.assertEqual(c['plugins'][0]['policy']['authentication'],'ON_INSTALL')
+        self.assertEqual(c['plugins'][0]['policy']['authentication'],'ON_USE')
+
+    def test_local_draw_precedes_remote_authorization(self):
+        metadata=json.loads((self.root/'compatibility.json').read_text())
+        self.assertEqual(metadata['drawConnectionPreference'], ['local-app', 'remote-oauth'])
+        self.assertEqual(metadata['optionalCapabilities']['localDraw'], 'local_draw_v1')
+        metadata['drawConnectionPreference'].reverse()
+        (self.root/'compatibility.json').write_text(json.dumps(metadata))
+        with self.assertRaisesRegex(ValueError,'prefer'): package.validate(self.root)
 
     def test_cloud_drawing_has_independent_readiness_and_portable_references(self):
         metadata=json.loads((self.root/'compatibility.json').read_text())

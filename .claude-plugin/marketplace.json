@@ -10,7 +10,7 @@
     {
       "name": "lassu",
       "source": "./plugins/lassu",
-      "version": "0.2.1",
+      "version": "0.3.0",
       "description": "Draw editable diagrams, produce narrated walkthroughs and edit screenshots with Lassu."
     }
   ]
