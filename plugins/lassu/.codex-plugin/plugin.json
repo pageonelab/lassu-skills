@@ -1,18 +1,26 @@
 {
   "name": "lassu",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Draw editable diagrams, produce narrated walkthroughs and edit screenshots with Lassu.",
   "author": {
     "name": "PageOneLab"
   },
   "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Lassu",
     "shortDescription": "Diagrams, narrated videos and screenshots.",
-    "longDescription": "Use remote Lassu Draw for editable diagrams and presentations. Connect the desktop app separately to capture and produce narrated videos or edit screenshots. Capabilities depend on each connected service.",
+    "longDescription": "Includes the Lassu Draw connection for editable diagrams and presentations. Authorize your Lassu account when prompted. Connect the desktop app separately for narrated videos and screenshot editing.",
     "developerName": "PageOneLab",
     "category": "Productivity",
-    "capabilities": [],
-    "defaultPrompt": "Record a concise narrated demonstration with Lassu."
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Draw an editable flowchart with Lassu.",
+      "Explain this architecture with a Lassu diagram.",
+      "Record a concise narrated demonstration with Lassu."
+    ]
   }
 }

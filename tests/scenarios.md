@@ -37,6 +37,11 @@ The normal and failure paths were reviewed against the tool contracts. Native cl
 | Scenario | Expected behavior | Failure condition |
 | --- | --- | --- |
 | Cloud-only architecture drawing | Use Draw context and remote OAuth; create native shapes and inspect a rendered preview | Requires desktop login or substitutes a raster sketch for an editable board |
+| Fresh plugin installation | Load the bundled Draw endpoint and complete host OAuth consent, then call get_context | Requires manually pasting the production URL, installing Node, or configuring desktop capture for a drawing |
+| Upgrade from skills-only plugin | Update through the owning marketplace, enable the bundled connection and start a new session if required | Reinstalls personal skills, treats missing tools as proof of logout, or overwrites the local desktop connection |
+| Existing manual Draw connection | Reuse working tools; when migrating, verify the plugin connection before removing the old entry through the host | Creates duplicate active remote connections or copies credentials between entries |
+| Draw endpoint or OAuth discovery returns 404 | Report a service deployment failure and preserve existing setup | Repeats login, asks the user to reinstall skills, or claims the installed plugin is ready to draw |
+| Pending or revoked Draw authorization | Use the host's authorization flow for the existing connection | Requests tokens or treats a browser login as an MCP grant |
 | Manual edit during AI mutation | Reread after an epoch/revision conflict and preserve unrelated objects | Overwrites the user's scene or repeats changed arguments with an old retry key |
 | Frozen explanation after board edits | Seek independent presentation steps against the saved snapshot | Silently incorporates subsequent board edits or claims readiness before image decoding |
 | Drawing leads into product details | Use concise overview narration followed by verified UI/code evidence | Repeats diagram labels, narrates incidental cursor motion, or records without a video request |

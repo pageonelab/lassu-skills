@@ -1,6 +1,6 @@
 # Connection recovery
 
-1. Check whether Lassu tools are available in this agent session. A plugin supplies instructions; the native app supplies the MCP connection. Do not register a second server when one already exists.
+1. Check whether local Lassu recording tools are available in this agent session. The native app supplies this MCP connection; the plugin's remote Draw connection is separate. Do not register a second local server when one already exists.
 2. Ask the user to open Lassu, sign in, enable AI access, and connect this AI client in preferences if it is not connected. A new host session may be needed after setup. Never collect passwords, session tokens, or provider keys.
 3. Call `lassu_status` once tools are available. Distinguish app reachability, account login, screen permission, capture capability, narration capability, and plan limits. A locally configured server does not prove the host has loaded it.
 4. Use a host tool that controls the selected local task window without taking OS focus or global mouse/keyboard input; see [window recording](window-recording.md). A window can remain behind the user's work while its selected page renders. Lassu captures and produces media; it does not itself browse websites. Cloud browsers and hidden tabs are not the recorded local page. If no compatible background control tool exists, explain that missing capability; do not silently take over the desktop.
