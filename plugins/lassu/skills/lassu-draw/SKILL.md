@@ -1,13 +1,13 @@
 ---
 name: lassu-draw
-description: Create and edit native diagrams, architecture views, explanatory drawings and low-fidelity wireframes in the Lassu Draw web service. Use for a Lassu drawing or an overview diagram that will lead into a product or code walkthrough. Standalone drawing uses the remote Draw MCP connection and does not require the desktop recorder.
+description: Create and edit native diagrams, architecture views, explanatory drawings and low-fidelity wireframes in the Lassu Draw web service. Use for a Lassu drawing or an overview diagram that will lead into a product or code walkthrough. Prefer the signed-in local Lassu app; remote Draw OAuth also supports drawing without the desktop app.
 ---
 
 Create an editable board that communicates the user's idea. Match the drawing to the audience and explanation: a flow for decisions, grouped services for architecture, or a simple wireframe for an interaction. Keep labels short and show only the relationships needed to understand the point.
 
 ## Draw and inspect
 
-1. Discover `lassu_draw_get_context`. Check the connected account, workspace, board quota and capabilities. The Lassu plugin includes the remote Draw connection. If tools or authorization are unavailable, read [connection](references/connection.md) and identify the actual setup state before asking for action. Do not require desktop installation for drawing.
+1. Prefer `lassu_draw_get_context` from the local `lassu` MCP server when available. It uses the signed-in App without separate Draw OAuth, screen permission or recording quota. Check the account, workspace, board quota and capabilities; keep all calls on that connection after it succeeds. If local Draw tools are missing or unavailable, read [connection](references/connection.md) before selecting the bundled remote `lassu-draw` connection or requesting setup. Remote drawing does not require the desktop app.
 2. For an existing board, use `lassu_draw_get_board` and keep its board ID, epoch, revision and semantic object IDs. Paginate using the same returned epoch and revision. Read source code or product context when the drawing is meant to describe a real system; distinguish a proposal from verified behavior.
 3. Create a board with an initial atomic operation batch, or update an existing board at its exact epoch/revision. Native shapes, text, bound arrows, groups and frames remain editable. Use `add_wireframe_component` for the supported simple controls. Keep hand-drawn content and unrelated objects intact; scope layout to intended objects. New boards default to Private unless the user chose another destination.
 4. On a version conflict, read the current board and revise only the intended change. Do not force the stale scene over newer human edits. After a timeout, repeat identical arguments with the same idempotency key; changed intent needs a new key. A revision-checked `undo_change` can revert an owned AI change while preserving newer edits by refusing stale undo.
