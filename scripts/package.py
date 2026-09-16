@@ -23,7 +23,7 @@ def generated(root=ROOT):
     draw = json.loads((root / 'compatibility.json').read_text(encoding='utf-8'))['remoteServices']['lassu-draw']
     codex = dict(metadata, interface=dict(displayName='Lassu',
         shortDescription='Diagrams, narrated videos and screenshots.',
-        longDescription='Includes the Lassu Draw connection for editable diagrams and presentations. Authorize your Lassu account when prompted. Connect the desktop app separately for narrated videos and screenshot editing.',
+        longDescription='Draw with your signed-in Lassu app, or connect remotely when no local app is available. Local drawing reuses the app login; remote OAuth is requested only when needed. The desktop app also supports narrated videos and screenshot editing.',
         developerName='PageOneLab', category='Productivity', capabilities=['Read', 'Write'],
         defaultPrompt=['Draw an editable flowchart with Lassu.',
             'Explain this architecture with a Lassu diagram.',
@@ -35,7 +35,7 @@ def generated(root=ROOT):
             'lassu-draw': {'type': 'http', 'url': draw['endpoint']}}}),
         '.agents/plugins/marketplace.json': encoded({'name':'lassu', 'interface':{'displayName':'Lassu'},
             'plugins':[{'name':'lassu','source':{'source':'local','path':'./plugins/lassu'},
-                'policy':{'installation':'AVAILABLE','authentication':'ON_INSTALL'},'category':'Productivity'}]}),
+                'policy':{'installation':'AVAILABLE','authentication':'ON_USE'},'category':'Productivity'}]}),
         '.claude-plugin/marketplace.json': encoded({'name':'lassu','owner':{'name':'PageOneLab'},
             'metadata':{'description':'Official Lassu plugin for diagrams, narrated videos and screenshot editing.'},
             'plugins':[{'name':'lassu','source':'./plugins/lassu','version':version,
@@ -83,6 +83,8 @@ def validate(root=ROOT):
         'capability': 'draw_authoring_v1', 'requiresDesktop': False
     }:
         raise ValueError('Draw readiness must use the remote service independently of the desktop')
+    if compatibility.get('drawConnectionPreference') != ['local-app', 'remote-oauth'] or compatibility.get('optionalCapabilities', {}).get('localDraw') != 'local_draw_v1':
+        raise ValueError('Draw must prefer the available signed-in local app')
     if set(compatibility.get('platforms', [])) != {
         'darwin-arm64', 'darwin-x64', 'win32-arm64', 'win32-x64'
     }:

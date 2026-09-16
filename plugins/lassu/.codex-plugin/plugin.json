@@ -1,6 +1,6 @@
 {
   "name": "lassu",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Draw editable diagrams, produce narrated walkthroughs and edit screenshots with Lassu.",
   "author": {
     "name": "PageOneLab"
@@ -10,7 +10,7 @@
   "interface": {
     "displayName": "Lassu",
     "shortDescription": "Diagrams, narrated videos and screenshots.",
-    "longDescription": "Includes the Lassu Draw connection for editable diagrams and presentations. Authorize your Lassu account when prompted. Connect the desktop app separately for narrated videos and screenshot editing.",
+    "longDescription": "Draw with your signed-in Lassu app, or connect remotely when no local app is available. Local drawing reuses the app login; remote OAuth is requested only when needed. The desktop app also supports narrated videos and screenshot editing.",
     "developerName": "PageOneLab",
     "category": "Productivity",
     "capabilities": [

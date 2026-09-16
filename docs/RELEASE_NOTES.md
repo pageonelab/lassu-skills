@@ -1,5 +1,9 @@
 # Release notes
 
+## 0.3.0
+
+Prefer Draw tools on the signed-in local Lassu app and retain remote OAuth for users without a usable local connection. Codex remote authorization is deferred until use. Local drawing requires the matching App/API bridge; credentials stay inside the App, and recording permissions or quota do not gate drawing. Preserve the selected account and connection across retries and failures.
+
 ## 0.2.1
 
 Bundle the remote Draw MCP connection with the Codex and Claude Code plugins. Plugin users authorize their Lassu account through the host without manually entering a service URL; the Codex marketplace requests authorization on installation. Keep the existing desktop connection for recording and screenshots. Older skills-only installations update through their owning marketplace; personal-skills-only archives still require one-time remote configuration. Draw service deployment and first account consent remain prerequisites.

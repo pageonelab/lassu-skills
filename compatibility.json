@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pluginVersion": "0.2.1",
+  "pluginVersion": "0.3.0",
   "automationProtocol": {
     "min": 1,
     "max": 1
@@ -20,7 +20,8 @@
     "narratedProduction": "demo_production",
     "multipleSourceProduction": "demo_sources_v2",
     "drawArtifactImport": "demo_draw_import_v1",
-    "measuredNarrationTiming": "demo_narration_timing_v1"
+    "measuredNarrationTiming": "demo_narration_timing_v1",
+    "localDraw": "local_draw_v1"
   },
   "runtimeBundled": false,
   "remoteServices": {
@@ -32,5 +33,9 @@
       "capability": "draw_authoring_v1",
       "requiresDesktop": false
     }
-  }
+  },
+  "drawConnectionPreference": [
+    "local-app",
+    "remote-oauth"
+  ]
 }
