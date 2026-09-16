@@ -34,8 +34,16 @@ class PackageTests(unittest.TestCase):
                 self.assertIsNone(z.testzip())
                 self.assertEqual(z.namelist(),sorted(z.namelist()))
                 self.assertTrue(all(not n.startswith('/') and '..' not in n.split('/') for n in z.namelist()))
-                self.assertFalse(any(n.endswith('.mcp.json') for n in z.namelist()))
                 prefix='plugins/lassu/' if 'plugin-' in artifact['name'] else ''
+                mcp_files=[n for n in z.namelist() if n.endswith('.mcp.json')]
+                self.assertEqual(mcp_files, ['plugins/lassu/.mcp.json'] if prefix else [])
+                if prefix:
+                    mcp=json.loads(z.read(prefix+'.mcp.json'))
+                    self.assertEqual(mcp, {'mcpServers': {'lassu-draw': {
+                        'type': 'http', 'url': 'https://api.lassu.ai/mcp/draw'}}})
+                    for host in ['codex', 'claude']:
+                        manifest=json.loads(z.read(prefix+f'.{host}-plugin/plugin.json'))
+                        self.assertEqual(manifest['mcpServers'], './.mcp.json')
                 for skill in package.SKILLS:
                     self.assertIn(prefix+'skills/'+skill+'/references/connection.md',z.namelist())
 
@@ -96,9 +104,21 @@ class PackageTests(unittest.TestCase):
         (self.root/'compatibility.json').write_text(json.dumps(metadata), encoding='utf-8')
         with self.assertRaisesRegex(ValueError,'readiness'): package.validate(self.root)
 
-    def test_unexpected_executable_or_mcp_config_fails(self):
-        (self.root/'plugins/lassu/.mcp.json').write_text('{}')
+    def test_unexpected_executable_fails(self):
+        (self.root/'plugins/lassu/install.sh').write_text('#!/bin/sh\n', encoding='utf-8')
         with self.assertRaisesRegex(ValueError,'Unexpected'): package.validate(self.root)
+
+    def test_missing_or_modified_draw_connection_fails(self):
+        path=self.root/'plugins/lassu/.mcp.json'
+        path.unlink()
+        with self.assertRaisesRegex(ValueError,'Generated file differs'): package.validate(self.root)
+        for server in [
+            {'type': 'http', 'url': 'https://example.invalid/mcp/draw'},
+            {'command': 'node', 'args': ['server.js']},
+            {'type': 'http', 'url': 'https://api.lassu.ai/mcp/draw', 'headers': {'Authorization': 'Bearer example'}},
+        ]:
+            path.write_text(json.dumps({'mcpServers': {'lassu-draw': server}}), encoding='utf-8')
+            with self.assertRaisesRegex(ValueError,'Generated file differs'): package.validate(self.root)
 
     def test_two_marketplaces_resolve_identical_plugin(self):
         c=json.loads((self.root/'.agents/plugins/marketplace.json').read_text(encoding='utf-8'))
@@ -106,6 +126,7 @@ class PackageTests(unittest.TestCase):
         self.assertEqual(c['plugins'][0]['source']['path'],a['plugins'][0]['source'])
         self.assertEqual(c['name'],a['name'])
         self.assertEqual(c['plugins'][0]['policy']['installation'],'AVAILABLE')
+        self.assertEqual(c['plugins'][0]['policy']['authentication'],'ON_INSTALL')
 
     def test_cloud_drawing_has_independent_readiness_and_portable_references(self):
         metadata=json.loads((self.root/'compatibility.json').read_text())

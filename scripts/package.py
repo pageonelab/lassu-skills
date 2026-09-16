@@ -19,20 +19,25 @@ def generated(root=ROOT):
     version = (root / 'VERSION').read_text(encoding='utf-8').strip()
     metadata = dict(name='lassu', version=version,
         description='Draw editable diagrams, produce narrated walkthroughs and edit screenshots with Lassu.',
-        author={'name': 'PageOneLab'}, skills='./skills/')
+        author={'name': 'PageOneLab'}, skills='./skills/', mcpServers='./.mcp.json')
+    draw = json.loads((root / 'compatibility.json').read_text(encoding='utf-8'))['remoteServices']['lassu-draw']
     codex = dict(metadata, interface=dict(displayName='Lassu',
         shortDescription='Diagrams, narrated videos and screenshots.',
-        longDescription='Use remote Lassu Draw for editable diagrams and presentations. Connect the desktop app separately to capture and produce narrated videos or edit screenshots. Capabilities depend on each connected service.',
-        developerName='PageOneLab', category='Productivity', capabilities=[],
-        defaultPrompt='Record a concise narrated demonstration with Lassu.'))
+        longDescription='Includes the Lassu Draw connection for editable diagrams and presentations. Authorize your Lassu account when prompted. Connect the desktop app separately for narrated videos and screenshot editing.',
+        developerName='PageOneLab', category='Productivity', capabilities=['Read', 'Write'],
+        defaultPrompt=['Draw an editable flowchart with Lassu.',
+            'Explain this architecture with a Lassu diagram.',
+            'Record a concise narrated demonstration with Lassu.']))
     result = {
         'plugins/lassu/.codex-plugin/plugin.json': encoded(codex),
         'plugins/lassu/.claude-plugin/plugin.json': encoded(metadata),
+        'plugins/lassu/.mcp.json': encoded({'mcpServers': {
+            'lassu-draw': {'type': 'http', 'url': draw['endpoint']}}}),
         '.agents/plugins/marketplace.json': encoded({'name':'lassu', 'interface':{'displayName':'Lassu'},
             'plugins':[{'name':'lassu','source':{'source':'local','path':'./plugins/lassu'},
                 'policy':{'installation':'AVAILABLE','authentication':'ON_INSTALL'},'category':'Productivity'}]}),
         '.claude-plugin/marketplace.json': encoded({'name':'lassu','owner':{'name':'PageOneLab'},
-            'metadata':{'description':'Official Lassu skills for narrated videos and screenshot editing.'},
+            'metadata':{'description':'Official Lassu plugin for diagrams, narrated videos and screenshot editing.'},
             'plugins':[{'name':'lassu','source':'./plugins/lassu','version':version,
                 'description':metadata['description']}]}),
     }

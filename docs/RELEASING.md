@@ -15,7 +15,7 @@ Squash merges are appropriate for feature changes. The repository also enables m
 
 Run **Prepare release** from `main`. The workflow rejects other refs, reruns the platform matrix, verifies checksums and version, produces GitHub provenance, and creates a draft `v<version>` release from exactly the tested commit. It does not rebuild after testing.
 
-Inspect the draft, provenance, release notes and installation checks. Publish the draft only after the matching app/backend capabilities are available. Do not publish narrated Windows capability claims without Windows native acceptance evidence. Publishing the skills release does not deploy the app or backend.
+Inspect the draft, provenance, release notes and installation checks. Publish the draft only after the matching app/backend capabilities are available. Before releasing the bundled Draw connection, verify production OAuth discovery, an unauthenticated MCP authorization challenge, host account consent, and a successful `lassu_draw_get_context` call. A 404 from the endpoint or discovery is a failed deployment gate, not a reason to ask users to reinstall. Do not publish narrated Windows capability claims without Windows native acceptance evidence. Publishing the skills release does not deploy the app or backend.
 
 Downloaded release artifacts can be verified with:
 
@@ -23,7 +23,7 @@ Downloaded release artifacts can be verified with:
 gh attestation verify lassu-skills-0.1.0.zip --repo pageonelab/lassu-skills
 ```
 
-Use the archive name for the actual version. Verify each artifact you consume. The two archives contain the same canonical skill content; the plugin archive additionally includes both host manifests and marketplace entries.
+Use the archive name for the actual version. Verify each artifact you consume. The two archives contain the same canonical skill content; the plugin archive additionally includes both host manifests, marketplace entries and the remote Draw MCP configuration.
 
 ## Repository settings
 
@@ -42,7 +42,7 @@ The separate `release` environment still requires a second maintainer when self-
 
 A bad skill release is fixed by a new version with corrected content or a restored known-good skill. Do not move tags or replace immutable artifacts. Users can pin a prior release until the replacement is available.
 
-Host-managed plugins update through that host's marketplace mechanism. App-managed personal skills update through Lassu's installation receipt. User-managed files are never silently overwritten. Do not register a second Lassu MCP server during plugin installation.
+Host-managed plugins update through that host's marketplace mechanism. App-managed personal skills update through Lassu's installation receipt. User-managed files are never silently overwritten. The plugin owns remote `lassu-draw`; the app owns local `lassu`. Do not duplicate the desktop server. When migrating an existing manually configured remote Draw connection, verify the plugin connection before removing the old entry through the host.
 
 ## Native binaries
 

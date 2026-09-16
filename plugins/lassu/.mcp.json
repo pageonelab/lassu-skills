@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "lassu-draw": {
+      "type": "http",
+      "url": "https://api.lassu.ai/mcp/draw"
+    }
+  }
+}
