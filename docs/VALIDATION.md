@@ -59,11 +59,11 @@ Local packaging validation covers all three skills, generated plugin parity, det
 
 No new independent Codex/Claude agent walkthrough, production OAuth deployment, Windows native device run, release publication or hosted CI result is claimed for this development change. Run the new cases in tests/scenarios.md with actual host versions before a production release.
 
-## Bundled Draw connection (0.2.0 development)
+## Bundled Draw connection (0.2.1)
 
 On September 16, 2026, all 14 package tests passed locally with Python 3.13.1. Generated-file parity, reproducible archives and checksums passed. Archive tests verify that both host manifests reference the bundled HTTPS Draw configuration and that the skills-only archive contains no MCP registration. Missing or changed configuration, a substituted endpoint, a local command and embedded authorization headers are rejected. The Codex plugin creator validator, skill validators and Claude Code plugin validator passed.
 
-Fresh temporary profiles installed the local marketplace with Codex CLI 0.153.4 (the desktop app's bundled CLI) and Claude Code 2.1.119. Codex reported an enabled `lassu@lassu` version 0.2.0 with `ON_INSTALL` authentication policy. Its `mcp list --json` resolved exactly one `lassu-draw` server using `streamable_http` at the production endpoint, with no bearer environment variable or configured headers. Claude Code's installed plugin listing resolved the same HTTP endpoint. These checks establish that the actual host loaders recognize the bundled connection; normal user profiles were not modified.
+Fresh temporary profiles installed the local marketplace with Codex CLI 0.153.4 (the desktop app's bundled CLI) and Claude Code 2.1.119. The local installation probe used the development version 0.2.0 before the release version was advanced to 0.2.1 for existing users to receive the update. Codex reported an enabled `lassu@lassu` with `ON_INSTALL` authentication policy. Its `mcp list --json` resolved exactly one `lassu-draw` server using `streamable_http` at the production endpoint, with no bearer environment variable or configured headers. Claude Code's installed plugin listing resolved the same HTTP endpoint. These checks establish that the actual host loaders recognize the bundled connection; normal user profiles were not modified.
 
 Read-only production probes at 08:42 UTC returned HTTP 404 for both `/mcp/draw` and `/.well-known/oauth-protected-resource/mcp/draw`. Codex consequently reported authentication status as `unsupported`; this is not evidence of a user login failure. Production OAuth consent and `lassu_draw_get_context` remain unverified until that deployment exposes the service. No release or production deployment was performed.
 
