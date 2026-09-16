@@ -4,7 +4,7 @@
     "name": "PageOneLab"
   },
   "metadata": {
-    "description": "Official Lassu skills for narrated videos and screenshot editing."
+    "description": "Official Lassu plugin for diagrams, narrated videos and screenshot editing."
   },
   "plugins": [
     {

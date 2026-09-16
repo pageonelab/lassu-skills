@@ -2,6 +2,8 @@
 
 ## 0.2.0
 
+Bundle the remote Draw MCP connection with the Codex and Claude Code plugins. Plugin users authorize their Lassu account through the host without manually entering a service URL; the Codex marketplace requests authorization on installation. Keep the existing desktop connection for recording and screenshots. Older skills-only installations update through their owning marketplace; personal-skills-only archives still require one-time remote configuration. Draw service deployment and first account consent remain prerequisites.
+
 Add the `lassu-draw` skill for editable flowcharts, architecture diagrams, explanations, and wireframes through the remote Draw MCP service. It discovers available capabilities, checks current board revisions, and previews results before using them in a presentation.
 
 Video walkthroughs can start with a high-level Draw explanation and continue into product, code, or tool details. Direct Draw asset import and multiple captured sources require the matching native capabilities; existing single-source recording remains supported. Service deployment and a compatible app are required for these features.

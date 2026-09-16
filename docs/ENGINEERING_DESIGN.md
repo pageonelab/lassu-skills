@@ -32,9 +32,9 @@ The app owns local permissions and account credentials. The backend owns entitle
 
 ## 3. User installation
 
-The preferred product experience is Lassu Preferences > AI access > Connect Codex or Connect Claude Code. The app installs or activates its private runtime, registers MCP through supported client configuration, and installs personal skills if the host does not already own a Lassu plugin. Codex desktop users must not need a separate Codex CLI.
+For recording and screenshot editing, the preferred product experience is Lassu Preferences > AI access > Connect Codex or Connect Claude Code. The app installs or activates its private runtime, registers MCP through supported client configuration, and installs personal skills if the host does not already own a Lassu plugin. Codex desktop users must not need a separate Codex CLI. Drawing uses the plugin connection described below and does not require the desktop app.
 
-The public plugin is an optional instruction distribution path. It does not contain a fixed application path or another MCP registration. Git marketplace users install the same generated skills. Archive users can install personal skills without Git, npm or Python. Never install both plugin and personal copies silently.
+The public plugin distributes the skills and a bundled remote `lassu-draw` MCP connection. Plugin users authorize the connection through their host without entering a service URL; Codex marketplace metadata requests authentication on installation. The desktop app still owns its separate local `lassu` registration, so the plugin contains no fixed application path or duplicate desktop server. Git marketplace users install the same generated skills and remote connection. Skills-only archive users can install personal skills without Git, npm or Python, but must configure remote Draw once through the host. Never install both plugin and personal copies silently.
 
 Connection status distinguishes downloaded, installed, configured, loaded by the host, authorized by the host, connected to the app, and capture-ready. A successful local MCP initialization does not prove that Codex or Claude Code has loaded it. Do not make an agent call or paid TTS request just to prove installation.
 
@@ -87,6 +87,7 @@ skills/lassu-edit-screenshot/SKILL.md
 skills/lassu-edit-screenshot/references/
 plugins/lassu/.codex-plugin/plugin.json
 plugins/lassu/.claude-plugin/plugin.json
+plugins/lassu/.mcp.json
 plugins/lassu/skills/
 .agents/plugins/marketplace.json
 .claude-plugin/marketplace.json
@@ -97,7 +98,9 @@ tests/
 .github/workflows/
 ```
 
-`skills/` is canonical. The package script generates host manifests, marketplace files and plugin skill copies. CI fails when generated output differs. The plugin carries no `.mcp.json`, hooks, API key, Mac-only path or downloaded executable. Each skill directory includes its own referenced files so personal installations are self-contained.
+`skills/` is canonical. The package script generates host manifests, marketplace files, the remote `.mcp.json` and plugin skill copies. The remote endpoint comes from `compatibility.json`; both host manifests reference the same generated config. CI fails when generated output differs. The only bundled server is HTTPS `lassu-draw`, using browser OAuth without embedded credentials. The plugin carries no desktop command, hooks, API key, Mac-only path or downloaded executable. Each skill directory includes its own referenced files so personal installations are self-contained.
+
+An older skills-only plugin is upgraded through its owning marketplace. Preserve an existing local desktop connection. If a manually configured remote Draw entry already exists, verify the plugin connection before removing the manual entry through the host; do not silently rewrite user configuration or create duplicate active connections. Missing tools, disabled plugins, unloaded sessions, OAuth failures and service deployment failures are separate setup states. A 404 from the endpoint or OAuth discovery is a service availability problem, not evidence that the user needs to reinstall or log in again.
 
 Archives are sorted, have fixed timestamps and modes, use normalized line endings, and are compared byte-for-byte across platform CI jobs. Release metadata includes version, sizes and SHA-256 digests. Provenance authenticates the GitHub build source; checksums alone only detect corruption.
 
