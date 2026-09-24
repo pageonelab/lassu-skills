@@ -1,5 +1,9 @@
 # Release notes
 
+## 0.3.1
+
+Draw walkthroughs prefer the signed-in local App's Draw tools and keep related calls on the selected connection, matching the Draw skill. Recording and screenshot recovery describe the current login model: one signed-in user, workspace switching without signing out, and separate lifecycles for browser, device and remote Draw OAuth sessions. The installation guide explains how the plugin and the App's Connect flow share skill ownership, so each client loads one copy of each skill.
+
 ## 0.3.0
 
 Prefer Draw tools on the signed-in local Lassu app and retain remote OAuth for users without a usable local connection. Codex remote authorization is deferred until use. Local drawing requires the matching App/API bridge; credentials stay inside the App, and recording permissions or quota do not gate drawing. Preserve the selected account and connection across retries and failures.
