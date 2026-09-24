@@ -59,3 +59,10 @@ The normal and failure paths were reviewed against the tool contracts. Native cl
 - Local login expired/AI access disabled: report the local state without silently switching accounts. Permission, quota, service and revision failures stay on the selected connection.
 - Account changes during an in-flight call: the App and API reject the stale owner. An uncertain mutation retains its original connection and retry key.
 - Both local and remote tools exist for different accounts: prefer local, keep all related calls there, and never infer shared identity from matching tool names.
+
+## Plugin and App skill ownership (0.3.1)
+
+- Plugin installed, then App Connect: the App configures its local connection without personal copies; the host lists each Lassu skill once.
+- App Connect, then plugin: an updated App hands its unchanged personal copies to the plugin on its next start or Connect. Edited copies are preserved and the error names their folder. An older App reports needs-attention; uninstalling the plugin restores a consistent App-managed setup.
+- Two Codex profiles share personal skills: hand them to the plugin only when every connected profile has it; otherwise explain that the other profile needs the plugin. A deleted profile does not block the handoff.
+- Draw walkthrough with a reachable signed-in App: use local Draw for context, edits and `prepare_demo_asset`, and do not request remote OAuth.
